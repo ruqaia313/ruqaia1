@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EID 2026 | Ultimate Premium Experience</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Tajawal:wght@300;500;700&display=swap');
+        
+        :root {
+            --bg-gradient: linear-gradient(135deg, #090514, #020105);
+            --text-main: #ffffff;
+            --text-muted: #8fa0b5;
+            --accent: #d4af37;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --card-border: rgba(255, 255, 255, 0.07);
+            --glass-blur: blur(25px);
+            --glow: rgba(212, 175, 55, 0.2);
+            --shadow-lux: 0 40px 100px rgba(0,0,0,0.7);
+        }
+
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #f5f7fa, #e4e8ee);
+            --text-main: #0f1115;
+            --text-muted: #5c6470;
+            --accent: #b81d24;
+            --card-bg: rgba(0, 0, 0, 0.02);
+            --card-border: rgba(0, 0, 0, 0.06);
+            --glow: rgba(184, 29, 36, 0.15);
+            --shadow-lux: 0 40px 100px rgba(15, 17, 21, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease, transform 0.3s ease;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.5) 100%);
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .theme-toggle-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            padding: 10px 18px;
+            border-radius: 40px;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            color: var(--text-main);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            opacity: 0;
+            transform: scale(0.98);
+            z-index: 5;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .screen.active {
+            display: flex !important;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .btn-welcome {
+            padding: 18px 45px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            background: transparent;
+            color: var(--text-main);
+            border: 2px solid var(--text-main);
+            cursor: pointer;
+        }
+
+        .instruction-text {
+            font-size: 15px;
+            color: var(--text-muted);
+            max-width: 320px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+        
+        .dollar-bill {
+            width: 280px;
+            height: 120px;
+            background: #739e55; 
+            background-image: radial-gradient(#8cbfa3 18%, transparent 18%), radial-gradient(#628f43 18%, transparent 18%);
+            background-size: 6px 6px;
+            border: 5px double #1b330e; 
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #0e1c08;
+            cursor: pointer;
+            box-shadow: var(--shadow-lux);
+            position: relative;
+            font-weight: bold;
+            animation: floatingMoney 4s ease-in-out infinite;
+        }
+        @keyframes floatingMoney {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .dollar-bill .serial-no { position: absolute; font-size: 8px; top: 10px; left: 12px; opacity: 0.7; }
+        .dollar-bill .federal-text { font-size: 7px; letter-spacing: 1px; position: absolute; top: 10px; }
+        .dollar-bill .bill-value { font-size: 38px; font-weight: 900; }
+        .dollar-bill .corner-val-top { position: absolute; font-size: 11px; top: 10px; right: 12px; }
+        .dollar-bill .corner-val { position: absolute; font-size: 11px; bottom: 10px; right: 12px; }
+
+        .error-box {
+            max-width: 340px;
+            padding: 30px 25px;
+            border-top: 4px solid #b81d24;
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(15px);
+            box-shadow: var(--shadow-lux);
+        }
+        .error-box h1 { font-size: 20px; margin-bottom: 15px; color: #b81d24; font-weight: 700; }
+        .error-box p { font-size: 14px; color: #a2a2a2; line-height: 1.7; }
+
+        #game-dollar {
+            width: 110px;
+            height: 45px;
+            background: var(--text-main);
+            color: var(--bg-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 700;
+            position: absolute;
+            cursor: pointer;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: none;
+            border-radius: 4px;
+        }
+
+        /* تنسيق مريح وراقي للكارت النهائي لمنع التداخل نهائياً على الموبايل */
+        .love-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            padding: 25px 20px;
+            border-radius: 16px;
+            width: 92%;
+            max-width: 360px;
+            box-shadow: var(--shadow-lux);
+            z-index: 10;
+        }
+        .love-text {
+            font-size: 15px;
+            line-height: 1.8;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .live-counter-box {
+            border-top: 1px solid var(--card-border);
+            padding-top: 20px;
+        }
+        .counter-title {
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+            display: block;
+            font-weight: 700;
+        }
+        .time-units {
+            display: flex;
+            justify-content: space-between;
+            direction: ltr;
+            padding: 0 10px;
+        }
+        .time-segment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        .time-value {
+            font-size: 22px; 
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-main);
+            line-height: 1;
+        }
+        .time-label {
+            font-size: 8px;
+            letter-spacing: 0.5px;
+            margin-top: 6px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+        
+        .heart-container {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .heart {
+            position: absolute;
+            color: var(--accent);
+            animation: elegantFloat 6s linear infinite;
+            opacity: 0;
+        }
+        @keyframes elegantFloat {
+            0% { transform: translateY(105vh) scale(0.4); opacity: 0; }
+            20% { opacity: var(--target-op, 0.4); }
+            85% { opacity: var(--target-op, 0.4); }
+            100% { transform: translateY(-10vh) translateX(var(--drift, 20px)) scale(var(--target-scale, 1)); opacity: 0; }
+        }
+
+        #yt-player-container {
+            position: absolute;
+            width: 1px; height: 1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+        }
+    </style>
+</head>
+<body>
+
+    <button class="theme-toggle-btn" id="themeBtn">Light Mode</button>
+    
+    <audio id="click-sound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
+    <audio id="error-sound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3" preload="auto"></audio>
+    
+    <div id="yt-player-container">
+        <div id="player"></div>
+    </div>
+    
+    <div class="heart-container" id="global-hearts"></div>
+
+    <!-- شاشة 1 -->
+    <div id="screen1" class="screen active">
+        <button class="btn-welcome" id="btn-start">ENTER EXPERIENCE</button>
+    </div>
+
+    <!-- شاشة 2 -->
+    <div id="screen2" class="screen">
+        <p class="instruction-text">يرجى الضغط على فئة الـ 100$ لبدء تفعيل وثيقة العيدية الخاصة بكِ</p>
+        <div class="dollar-bill" id="drag-dollar">
+            <div class="serial-no">HB 48392048 A</div>
+            <div class="federal-text">Federal Reserve Note</div>
+            <div class="corner-val-top">100</div>
+            <div class="bill-value">$100</div>
+            <div class="corner-val">100</div>
+        </div>
+    </div>
+
+    <!-- شاشة 3 -->
+    <div id="screen3" class="screen">
+        <div class="error-box">
+            <h1>SYSTEM HOLD</h1>
+            <p>نأسف لإبلاغكِ بأن الرصيد المتوفر في حساب الطرف المصدر لا يغطي حجم التوقعات حالياً. يرجى إعادة المحاولة خلال الربع الأول من عام 2030.</p>
+        </div>
+    </div>
+
+    <!-- شاشة 4 -->
+    <div id="screen4" class="screen">
+        <p class="instruction-text" style="margin-bottom: 0;">الرجاء الضغط على العنصر أدناه 5 مرات لتجاوز حماية النظام يدوياً</p>
+        <div id="game-dollar">VERIFY</div>
+    </div>
+
+    <!-- شاشة 5 -->
+    <div id="screen5" class="screen">
+        <div class="love-card">
+            <p class="love-text">
+                كل عام وأنت بخير يارب ينعاد عليج بالصحة والعافية يارب اشوفج احلى جراحة قلب يابعد عيوني يابعد روحي الله يحفظج اليه ويحميج ويبعد عنج كل شر يابعد گلبي يابعد عيوني انت يا عيديتي انت احلى عيد بحياتي وياك احبك يابعد عيوني ❤️🏥🩺
+            </p>
+            
+            <div class="live-counter-box">
+                <span class="counter-title">TIME SPENT TOGETHER</span>
+                <div class="time-units">
+                    <div class="time-segment">
+                        <span class="time-value" id="val-seconds">00</span>
+                        <span class="time-label">SEC</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-value" id="val-minutes">00</span>
+                        <span class="time-label">MIN</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-value" id="val-hours">00</span>
+                        <span class="time-label">HRS</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-value" id="val-days">00</span>
+                        <span class="time-label">DAYS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let player;
+        const errorSound = document.getElementById('error-sound');
+        const clickSound = document.getElementById('click-sound');
+        let counterInterval;
+
+        const firstDayWeMet = new Date("2026-03-21T04:23:39"); 
+
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '1', width: '1', videoId: 'VZYyEhMhtqY',
+                playerVars: {
+                    'autoplay': 0, 'controls': 0, 'disablekb': 1,
+                    'fs': 0, 'rel': 0, 'modestbranding': 1,
+                    'start': 25, 'loop': 1, 'playlist': 'VZYyEhMhtqY'
+                }
+            });
+        }
+
+        // دالة الاهتزاز الصارمة للموبايل (دبل نبضة لضمان القوة والوضوح)
+        function deviceVibrate(ms) {
+            if (navigator.vibrate) {
+                navigator.vibrate(0); 
+                navigator.vibrate(ms);
+            }
+        }
+
+        function playClickSound() {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(e => console.log("Audio active"));
+        }
+
+        function updateLiveCounter() {
+            const today = new Date();
+            const diffInMs = today.getTime() - firstDayWeMet.getTime();
+            if (diffInMs < 0) return;
+
+            const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
+
+            const secElement = document.getElementById('val-seconds');
+            const newSec = String(seconds).padStart(2, '0');
+            
+            if(secElement.innerHTML !== newSec) {
+                deviceVibrate(25); // نبضة اهتزاز خفيفة بالموبايل مع تغير كل ثانية
+            }
+
+            document.getElementById('val-days').innerHTML = String(days).padStart(2, '0');
+            document.getElementById('val-hours').innerHTML = String(hours).padStart(2, '0');
+            document.getElementById('val-minutes').innerHTML = String(minutes).padStart(2, '0');
+            secElement.innerHTML = newSec;
+        }
+
+        // تفعيل الأحداث المشتركة (نقرة إصبع + ماوس) لضمان الاهتزاز الفوري
+        function bindAction(elementId, callbackAction, vibeDuration = 80) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const execution = (e) => {
+                if (e) e.preventDefault();
+                deviceVibrate(vibeDuration);
+                playClickSound();
+                callbackAction();
+            };
+            
+            element.addEventListener('touchstart', execution, { passive: false });
+            element.addEventListener('click', execution);
+        }
+
+        // تبديل الثيم
+        bindAction('themeBtn', () => {
+            const body = document.body;
+            const btn = document.getElementById('themeBtn');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                btn.innerHTML = 'Light Mode';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                btn.innerHTML = 'Dark Mode';
+            }
+        }, 70);
+
+        // زر الشاشة الأولى وبدء تشغيل الأغنية
+        bindAction('btn-start', () => {
+            if (player && typeof player.playVideo === 'function') {
+                player.seekTo(25, true);
+                player.setVolume(100);
+                player.playVideo();
+            }
+            nextScreen(1, 2);
+        }, 120);
+
+        function nextScreen(current, next) {
+            document.getElementById(`screen${current}`).classList.remove('active');
+            setTimeout(() => {
+                const nextScr = document.getElementById(`screen${next}`);
+                nextScr.classList.add('active');
+                
+                if(next === 3) {
+                    errorSound.play().catch(e => console.log(e));
+                    if (navigator.vibrate) navigator.vibrate([100, 60, 100, 60, 150]); 
+                    if (player && typeof player.setVolume === 'function') player.setVolume(20); 
+                }
+                if(next === 4) {
+                    initGame();
+                    errorSound.pause(); errorSound.currentTime = 0;
+                    if (player && typeof player.setVolume === 'function') player.setVolume(50);
+                }
+                if(next === 5) {
+                    updateLiveCounter();
+                    counterInterval = setInterval(updateLiveCounter, 1000);
+                    if (player && typeof player.setVolume === 'function') player.setVolume(100); 
+                    if (navigator.vibrate) navigator.vibrate([80, 50, 80, 50, 100]); 
+                }
+            }, 550);
+        }
+
+        // نقر كارت الـ 100 دولار
+        bindAction('drag-dollar', () => {
+            const dragDollar = document.getElementById('drag-dollar');
+            dragDollar.style.animation = 'none';
+            dragDollar.style.transform = 'translateY(-140vh) scale(0.5)';
+            dragDollar.style.opacity = '0';
+            setTimeout(() => { nextScreen(2, 3); }, 500);
+            setTimeout(() => { nextScreen(3, 4); }, 4000);
+        }, 100);
+
+        let escapeCount = 0;
+        const gameDollar = document.getElementById('game-dollar');
+
+        function moveDollar() {
+            const maxX = window.innerWidth - gameDollar.clientWidth - 35;
+            const maxY = window.innerHeight - gameDollar.clientHeight - 35;
+            gameDollar.style.left = `${Math.max(35, Math.floor(Math.random() * maxX))}px`;
+            gameDollar.style.top = `${Math.max(120, Math.floor(Math.random() * maxY))}px`;
+        }
+
+        function initGame() {
+            moveDollar();
+            
+            const gameClick = (e) => {
+                if(e) e.preventDefault();
+                deviceVibrate(75); // اهتزاز واضح للموبايل مع كل لمسة لـ VERIFY
+                playClickSound();
+                if (escapeCount < 4) {
+                    moveDollar();
+                    escapeCount++;
+                } else {
+                    gameDollar.removeEventListener('touchstart', gameClick);
+                    gameDollar.removeEventListener('click', gameClick);
+                    gameDollar.style.transform = 'scale(0)';
+                    setTimeout(() => { nextScreen(4, 5); }, 200);
+                }
+            };
+            
+            gameDollar.addEventListener('touchstart', gameClick, { passive: false });
+            gameDollar.addEventListener('click', gameClick);
+        }
+
+        function startGlobalHearts() {
+            const container = document.getElementById('global-hearts');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = Math.random() > 0.5 ? '❤️' : '✦';
+                heart.style.fontSize = `${Math.floor(Math.random() * 10) + 12}px`;
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.setProperty('--target-op', (Math.random() * 0.3 + 0.2).toFixed(2));
+                heart.style.setProperty('--drift', `${Math.floor(Math.random() * 40) - 20}px`);
+                container.appendChild(heart);
+                setTimeout(() => { heart.remove(); }, 6000);
+            }, 450);
+        }
+
+        window.addEventListener('DOMContentLoaded', startGlobalHearts);
+    </script>
+</body>
+</html>
