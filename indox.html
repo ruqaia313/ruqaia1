@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EID 2026 | Exclusive Experience</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600&family=Tajawal:wght@300;500;700&display=swap');
+        
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f0c1b, #05050a);
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+            --accent: #d4af37;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(15px);
+        }
+
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #f7f9fa, #e4e7eb);
+            --text-main: #111116;
+            --text-muted: #65676b;
+            --accent: #b81d24;
+            --card-bg: rgba(0, 0, 0, 0.02);
+            --card-border: rgba(0, 0, 0, 0.06);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+            transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .theme-toggle-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+            padding: 10px 20px;
+            border-radius: 40px;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            color: var(--text-main);
+            font-size: 13px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            opacity: 0;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5; /* لضمان بقاء محتوى الشاشات فوق القلوب وقابل للتفاعل */
+        }
+
+        .screen.active {
+            display: flex !important;
+            opacity: 1;
+        }
+
+        .btn-welcome {
+            padding: 20px 60px;
+            font-size: 22px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        .btn-welcome:hover {
+            background: var(--text-main);
+            color: var(--bg-gradient);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.05);
+        }
+
+        .instruction-text {
+            font-size: 20px;
+            font-weight: 300;
+            margin-bottom: 50px;
+            color: var(--text-muted);
+            max-width: 400px;
+            line-height: 1.6;
+        }
+        
+        .dollar-bill {
+            width: 240px;
+            height: 110px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 4px;
+            color: var(--text-main);
+            cursor: pointer;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            position: relative;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+        }
+        .dollar-bill:active {
+            transform: scale(0.95);
+        }
+        .dollar-bill::before {
+            content: "PREMIUM CREDIT";
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        #screen3 {
+            background: #080205;
+        }
+        .error-box {
+            max-width: 450px;
+            padding: 40px;
+            border-top: 2px solid #b81d24;
+            background: rgba(255, 255, 255, 0.01);
+        }
+        .error-box h1 {
+            font-size: 26px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            color: #b81d24;
+        }
+        .error-box p {
+            font-size: 16px;
+            color: #a0a0a0;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        #game-dollar {
+            width: 100px;
+            height: 45px;
+            background: var(--text-main);
+            color: var(--bg-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.1s ease-out;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .love-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            padding: 40px;
+            border-radius: 4px;
+            max-width: 550px;
+            width: 90%;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+        .love-text {
+            font-size: 19px;
+            line-height: 1.9;
+            font-weight: 300;
+            color: var(--text-main);
+            margin-bottom: 40px;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+        
+        .live-counter-box {
+            border-top: 1px solid var(--card-border);
+            padding-top: 30px;
+        }
+        .counter-title {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            color: var(--text-muted);
+            display: block;
+        }
+        .time-units {
+            display: flex;
+            justify-content: space-between;
+            direction: ltr;
+        }
+        .time-segment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        .time-value {
+            font-size: 32px;
+            font-weight: 300;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-main);
+        }
+        .time-label {
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 8px;
+            color: var(--text-muted);
+        }
+        
+        /* تعديل الحاوية والأنيميشن لتشمل كامل الشاشة الخلفية */
+        .heart-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .heart {
+            position: absolute;
+            color: var(--accent);
+            font-size: 16px;
+            pointer-events: none;
+            animation: elegantFloat 5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+            opacity: 0;
+        }
+        @keyframes elegantFloat {
+            0% { transform: translateY(105vh) scale(0.5); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        #youtube-player {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">Light Mode</button>
+    <audio id="error-sound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3" preload="auto"></audio>
+    
+    <div id="youtube-player"></div>
+    
+    <!-- حاوية القلوب العامة في خلفية الموقع كله -->
+    <div class="heart-container" id="global-hearts"></div>
+
+    <!-- شاشة 1 -->
+    <div id="screen1" class="screen active">
+        <button class="btn-welcome" onclick="startExperience()">ENTER EXPERIENCE</button>
+    </div>
+
+    <!-- شاشة 2 -->
+    <div id="screen2" class="screen">
+        <p class="instruction-text">يرجى الضغط على البطاقة لبدء تفعيل وثيقة العيدية الخاصة بكِ</p>
+        <div class="dollar-bill" id="drag-dollar" onclick="handleCardClick()">100 USD</div>
+    </div>
+
+    <!-- شاشة 3 -->
+    <div id="screen3" class="screen">
+        <div class="error-box">
+            <h1>SYSTEM HOLD</h1>
+            <p>نأسف لإبلاغكِ بأن الرصيد المتوفر في حساب الطرف المصدر لا يغطي حجم التوقعات حالياً. يرجى إعادة المحاولة خلال الربع الأول من عام 2030.</p>
+        </div>
+    </div>
+
+    <!-- شاشة 4 -->
+    <div id="screen4" class="screen">
+        <p class="instruction-text" style="margin-bottom: 0;">الرجاء الضغط على العنصر أدناه 5 مرات لتجاوز حماية النظام يدوياً</p>
+        <div id="game-dollar">VERIFY</div>
+    </div>
+
+    <!-- شاشة 5 -->
+    <div id="screen5" class="screen">
+        <div class="love-card">
+            <p class="love-text">
+                كل عام وأنت بخير يارب ينعاد عليج بالصحة والعافية يارب اشوفج احلى جراحة قلب يابعد عيوني يابعد روحي الله يحفظج اليه ويحميج ويبعد عنج كل شر يابعد گلبي يابعد عيوني انت يا عيديتي انت احلى عيد بحياتي وياك احبك يابعد عيوني ❤️🏥🩺
+            </p>
+            
+            <div class="live-counter-box">
+                <span class="counter-title">TIME SPENT TOGETHER</span>
+                <div class="time-units">
+                    <div class="time-segment">
+                        <span class="time-value" id="val-seconds">00</span>
+                        <span class="time-label">SEC</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-value" id="val-minutes">00</span>
+                        <span class="time-label">MIN</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-value" id="val-hours">00</span>
+                        <span class="time-label">HRS</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-value" id="val-days">00</span>
+                        <span class="time-label">DAYS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        const errorSound = document.getElementById('error-sound');
+        let player;
+        let isApiReady = false;
+        let counterInterval;
+
+        const firstDayWeMet = new Date("2026-03-21T04:23:39"); 
+
+        function updateLiveCounter() {
+            const today = new Date();
+            const diffInMs = today.getTime() - firstDayWeMet.getTime();
+            
+            if (diffInMs < 0) return;
+
+            const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
+
+            document.getElementById('val-days').innerHTML = String(days).padStart(2, '0');
+            document.getElementById('val-hours').innerHTML = String(hours).padStart(2, '0');
+            document.getElementById('val-minutes').innerHTML = String(minutes).padStart(2, '0');
+            document.getElementById('val-seconds').innerHTML = String(seconds).padStart(2, '0');
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('themeBtn');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                btn.innerHTML = 'Light Mode';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                btn.innerHTML = 'Dark Mode';
+            }
+        }
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                videoId: 'VZYyEhMhtqY',
+                playerVars: {
+                    'start': 25,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'rel': 0,
+                    'playsinline': 1
+                },
+                events: {
+                    'onReady': (event) => { 
+                        isApiReady = true;
+                        event.target.mute(); 
+                    }
+                }
+            });
+        }
+
+        function startExperience() {
+            if(isApiReady && player && typeof player.playVideo === 'function') {
+                player.unMute();
+                player.setVolume(100);
+                player.seekTo(25, true);
+                player.playVideo();
+            }
+            nextScreen(1, 2);
+        }
+
+        function nextScreen(current, next) {
+            const currentScreen = document.getElementById(`screen${current}`);
+            const nextScreen = document.getElementById(`screen${next}`);
+            
+            currentScreen.classList.remove('active');
+            
+            setTimeout(() => {
+                nextScreen.classList.add('active');
+                
+                if(next === 3) {
+                    errorSound.play().catch(e => console.log(e));
+                    if(player && typeof player.setVolume === 'function') player.setVolume(20);
+                }
+                if(next === 4) {
+                    initGame();
+                    errorSound.pause();
+                    errorSound.currentTime = 0;
+                    if(player && typeof player.setVolume === 'function') player.setVolume(40);
+                }
+                if(next === 5) {
+                    updateLiveCounter();
+                    counterInterval = setInterval(updateLiveCounter, 1000);
+                    if(player && typeof player.setVolume === 'function') {
+                        player.setVolume(100);
+                        player.playVideo(); 
+                    }
+                }
+            }, 600);
+        }
+
+        function handleCardClick() {
+            const dragDollar = document.getElementById('drag-dollar');
+            dragDollar.style.transform = 'translateY(-100vh)';
+            dragDollar.style.opacity = '0';
+            setTimeout(() => { nextScreen(2, 3); }, 500);
+            setTimeout(() => { nextScreen(3, 4); }, 5000);
+        }
+
+        let escapeCount = 0;
+        const gameDollar = document.getElementById('game-dollar');
+
+        function moveDollar() {
+            const maxX = window.innerWidth - gameDollar.clientWidth - 40;
+            const maxY = window.innerHeight - gameDollar.clientHeight - 40;
+            const randomX = Math.max(40, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(120, Math.floor(Math.random() * maxY));
+            gameDollar.style.left = `${randomX}px`;
+            gameDollar.style.top = `${randomY}px`;
+        }
+
+        function initGame() {
+            moveDollar();
+            gameDollar.addEventListener('mouseover', handleEscape);
+            gameDollar.addEventListener('touchstart', handleEscape);
+        }
+
+        function handleEscape() {
+            if (escapeCount < 4) {
+                moveDollar();
+                escapeCount++;
+            } else {
+                gameDollar.removeEventListener('mouseover', handleEscape);
+                gameDollar.removeEventListener('touchstart', handleEscape);
+                nextScreen(4, 5);
+            }
+        }
+
+        // دالة إطلاق التأثيرات اللامعة والقلوب على كامل الموقع فور تحميل الصفحة
+        function startGlobalHearts() {
+            const container = document.getElementById('global-hearts');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '✦';
+                if(Math.random() > 0.5) heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                container.appendChild(heart);
+                setTimeout(() => { heart.remove(); }, 5000);
+            }, 400);
+        }
+
+        // تشغيل تأثير القلوب في الخلفية فوراً
+        window.addEventListener('DOMContentLoaded', startGlobalHearts);
+    </script>
+</body>
+</html>
