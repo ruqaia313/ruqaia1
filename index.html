@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EID 2026 | Premium Experience</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Tajawal:wght@300;500;700&display=swap');
+        
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0b0713, #020205);
+            --text-main: #ffffff;
+            --text-muted: #8fa0b5;
+            --accent: #d4af37;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --glass-blur: blur(20px);
+            --glow: rgba(212, 175, 55, 0.15);
+        }
+
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #f4f7f9, #e1e5eb);
+            --text-main: #0f1115;
+            --text-muted: #5c6470;
+            --accent: #b81d24;
+            --card-bg: rgba(0, 0, 0, 0.01);
+            --card-border: rgba(0, 0, 0, 0.05);
+            --glow: rgba(184, 29, 36, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease, transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .theme-toggle-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+            padding: 12px 26px;
+            border-radius: 40px;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            color: var(--text-main);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .theme-toggle-btn:hover {
+            background: var(--text-main);
+            color: var(--bg-gradient);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,255,255,0.1);
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.98);
+            z-index: 5;
+        }
+
+        .screen.active {
+            display: flex !important;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .btn-welcome {
+            padding: 22px 65px;
+            font-size: 20px;
+            font-weight: 400;
+            letter-spacing: 4px;
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+            border-radius: 0;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-welcome::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--text-main);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: -1;
+        }
+        .btn-welcome:hover {
+            color: var(--bg-gradient);
+            box-shadow: 0 20px 40px rgba(255,255,255,0.08);
+            transform: translateY(-5px);
+        }
+        .btn-welcome:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        .btn-welcome:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .instruction-text {
+            font-size: 21px;
+            font-weight: 300;
+            margin-bottom: 50px;
+            color: var(--text-muted);
+            max-width: 450px;
+            line-height: 1.7;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .dollar-bill {
+            width: 310px;
+            height: 135px;
+            background: #7ca95c; 
+            background-image: radial-gradient(#8cbfa3 15%, transparent 15%), radial-gradient(#6c994c 15%, transparent 15%);
+            background-size: 6px 6px;
+            border: 5px double #224012; 
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #12240a;
+            cursor: pointer;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4), inset 0 0 25px rgba(0,0,0,0.2);
+            position: relative;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: bold;
+            animation: floatingMoney 4s ease-in-out infinite;
+        }
+        @keyframes floatingMoney {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        .dollar-bill:hover {
+            box-shadow: 0 35px 70px rgba(0,0,0,0.6), inset 0 0 15px rgba(0,0,0,0.1);
+            animation-play-state: paused;
+            transform: translateY(-5px) scale(1.04) rotate(-0.5deg);
+        }
+        .dollar-bill:active {
+            transform: scale(0.97) translateY(2px);
+        }
+        .dollar-bill .serial-no {
+            position: absolute;
+            font-size: 8px;
+            color: #101f09;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            top: 10px; left: 14px;
+        }
+        .dollar-bill .federal-text {
+            font-size: 7px;
+            letter-spacing: 2.5px;
+            color: #18300d;
+            position: absolute;
+            top: 10px;
+            text-transform: uppercase;
+        }
+        .dollar-bill .bill-value {
+            font-size: 42px;
+            letter-spacing: 1px;
+            font-weight: 800;
+            color: #0b1705;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.15);
+        }
+        .dollar-bill .seal {
+            width: 32px;
+            height: 32px;
+            border: 1px dashed #1d380e;
+            border-radius: 50%;
+            position: absolute;
+            right: 30px; top: 50px;
+            opacity: 0.5;
+            background: repeating-linear-gradient(45deg, transparent, transparent 2px, #1d380e 2px, #1d380e 4px);
+        }
+        .dollar-bill .corner-val, .dollar-bill .corner-val-top {
+            position: absolute;
+            font-size: 12px;
+            font-weight: 800;
+            color: #1d380e;
+        }
+        .dollar-bill .corner-val-top { top: 10px; right: 14px; }
+        .dollar-bill .corner-val { bottom: 10px; right: 14px; }
+
+        #screen3 { background: #050103; }
+        .error-box {
+            max-width: 460px;
+            padding: 45px;
+            border-top: 3px solid #b81d24;
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.5);
+        }
+        .error-box h1 {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            color: #b81d24;
+        }
+        .error-box p {
+            font-size: 16px;
+            color: #959595;
+            line-height: 1.9;
+            font-weight: 300;
+        }
+
+        #game-dollar {
+            width: 120px;
+            height: 50px;
+            background: var(--text-main);
+            color: var(--bg-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            position: absolute;
+            cursor: pointer;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: none;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .love-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            padding: 45px;
+            border-radius: 6px;
+            max-width: 580px;
+            width: 90%;
+            box-shadow: 0 50px 120px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+            z-index: 10;
+        }
+        .love-text {
+            font-size: 20px;
+            line-height: 2;
+            font-weight: 300;
+            color: var(--text-main);
+            margin-bottom: 45px;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+        
+        .live-counter-box {
+            border-top: 1px solid var(--card-border);
+            padding-top: 35px;
+        }
+        .counter-title {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            color: var(--text-muted);
+            display: block;
+            font-weight: 600;
+        }
+        .time-units {
+            display: flex;
+            justify-content: space-between;
+            direction: ltr;
+        }
+        .time-segment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        .time-value {
+            font-size: 36px;
+            font-weight: 300;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-main);
+            text-shadow: 0 4px 15px var(--glow);
+        }
+        .time-label {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        
+        .heart-container {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .heart {
+            position: absolute;
+            color: var(--accent);
+            pointer-events: none;
+            animation: elegantFloat 6s linear infinite;
+            opacity: 0;
+            filter: drop-shadow(0 0 5px var(--glow));
+        }
+        @keyframes elegantFloat {
+            0% { transform: translateY(105vh) translateX(0) scale(0.5); opacity: 0; }
+            15% { opacity: var(--target-op, 0.4); }
+            90% { opacity: var(--target-op, 0.4); }
+            100% { transform: translateY(-10vh) translateX(var(--drift, 20px)) scale(var(--target-scale, 1)); opacity: 0; }
+        }
+
+        /* حاوية مشغل اليوتيوب المخفية تقنياً تماماً */
+        #youtube-player {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="theme-toggle-btn" onclick="playClickSound(); toggleTheme();" id="themeBtn">Light Mode</button>
+    
+    <!-- المؤثرات الصوتية للأزرار والمشغل السري لليوتيوب -->
+    <audio id="click-sound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
+    <audio id="error-sound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3" preload="auto"></audio>
+    <div id="youtube-player"></div>
+    
+    <div class="heart-container" id="global-hearts"></div>
+
+    <!-- شاشة 1 -->
+    <div id="screen1" class="screen active">
+        <button class="btn-welcome" onclick="startExperience()">ENTER EXPERIENCE</button>
+    </div>
+
+    <!-- شاشة 2 -->
+    <div id="screen2" class="screen">
+        <p class="instruction-text">يرجى الضغط على فئة الـ 100$ لبدء تفعيل وثيقة العيدية الخاصة بكِ</p>
+        <div class="dollar-bill" id="drag-dollar" onclick="handleCardClick()">
+            <div class="serial-no">HB 48392048 A</div>
+            <div class="federal-text">Federal Reserve Note</div>
+            <div class="corner-val-top">100</div>
+            <div class="bill-value">$100</div>
+            <div class="seal"></div>
+            <div class="corner-val">100</div>
+        </div>
+    </div>
+
+    <!-- شاشة 3 -->
+    <div id="screen3" class="screen">
+        <div class="error-box">
+            <h1>SYSTEM HOLD</h1>
+            <p>نأسف لإبلاغكِ بأن الرصيد المتوفر في حساب الطرف المصدر لا يغطي حجم التوقعات حالياً. يرجى إعادة المحاولة خلال الربع الأول من عام 2030.</p>
+        </div>
+    </div>
+
+    <!-- شاشة 4 -->
+    <div id="screen4" class="screen">
+        <p class="instruction-text" style="margin-bottom: 0;">الرجاء الضغط على العنصر أدناه 5 مرات لتجاوز حماية النظام يدوياً</p>
+        <div id="game-dollar">VERIFY</div>
+    </div>
+
+    <!-- شاشة 5 -->
+    <div id="screen5" class="screen">
+        <div class="love-card">
+            <p class="love-text">
+                كل عام وأنت بخير يارب ينعاد عليج بالصحة والعافية يارب اشوفج احلى جراحة قلب يابعد عيوني يابعد روحي الله يحفظج اليه ويحميج ويبعد عنج كل شر يابعد گلبي يابعد عيوني انت يا عيديتي انت احلى عيد بحياتي وياك احبك يابعد عيوني ❤️🏥🩺
+            </p>
+            
+            <div class="live-counter-box">
+                <span class="counter-title">TIME SPENT TOGETHER</span>
+                <div class="time-units">
+                    <div class="time-segment">
+                        <span class="time-value" id="val-seconds">00</span>
+                        <span class="time-label">SEC</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-value" id="val-minutes">00</span>
+                        <span class="time-label">MIN</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-value" id="val-hours">00</span>
+                        <span class="time-label">HRS</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-value" id="val-days">00</span>
+                        <span class="time-label">DAYS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- تضمين مكتبة يوتيوب الرسمية -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        const errorSound = document.getElementById('error-sound');
+        const clickSound = document.getElementById('click-sound');
+        let player;
+        let isApiReady = false;
+        let counterInterval;
+
+        const firstDayWeMet = new Date("2026-03-21T04:23:39"); 
+
+        function playClickSound() {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(e => console.log("Audio waiting for user gesture"));
+        }
+
+        function updateLiveCounter() {
+            const today = new Date();
+            const diffInMs = today.getTime() - firstDayWeMet.getTime();
+            if (diffInMs < 0) return;
+
+            const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
+
+            document.getElementById('val-days').innerHTML = String(days).padStart(2, '0');
+            document.getElementById('val-hours').innerHTML = String(hours).padStart(2, '0');
+            document.getElementById('val-minutes').innerHTML = String(minutes).padStart(2, '0');
+            document.getElementById('val-seconds').innerHTML = String(seconds).padStart(2, '0');
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('themeBtn');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                btn.innerHTML = 'Light Mode';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                btn.innerHTML = 'Dark Mode';
+            }
+        }
+
+        // تهيئة الـ API الخاص بالفيديو المطلوب بدقة وموثوقية عالية
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                videoId: 'VZYyEhMhtqY', // كود الفيديو الخاص بك المرسل في الرابط
+                playerVars: {
+                    'start': 25, // البدء من الثانية 25 بشكل احترافي ومباشر
+                    'controls': 0,
+                    'disablekb': 1,
+                    'rel': 0,
+                    'playsinline': 1
+                },
+                events: {
+                    'onReady': (event) => { 
+                        isApiReady = true;
+                        event.target.mute(); // كتم أولي لتجاوز القيود الأمنية للمتصفح عند التحميل
+                    }
+                }
+            });
+        }
+
+        // إطلاق تشغيل الموسيقى فور ضغط زر الدخول بشكل متوافق تماماً مع حماية المتصفحات
+        function startExperience() {
+            playClickSound();
+            if(isApiReady && player && typeof player.playVideo === 'function') {
+                player.unMute();
+                player.setVolume(100);
+                player.seekTo(25, true);
+                player.playVideo();
+            }
+            nextScreen(1, 2);
+        }
+
+        function nextScreen(current, next) {
+            const currentScreen = document.getElementById(`screen${current}`);
+            const nextScreen = document.getElementById(`screen${next}`);
+            
+            currentScreen.classList.remove('active');
+            
+            setTimeout(() => {
+                nextScreen.classList.add('active');
+                
+                if(next === 3) {
+                    errorSound.play().catch(e => console.log(e));
+                    if(player && typeof player.setVolume === 'function') player.setVolume(20); // خفض الأغنية مؤقتاً أثناء الخطأ
+                }
+                if(next === 4) {
+                    initGame();
+                    errorSound.pause();
+                    errorSound.currentTime = 0;
+                    if(player && typeof player.setVolume === 'function') player.setVolume(40);
+                }
+                if(next === 5) {
+                    updateLiveCounter();
+                    counterInterval = setInterval(updateLiveCounter, 1000);
+                    if(player && typeof player.setVolume === 'function') {
+                        player.setVolume(100);
+                        player.playVideo(); 
+                    }
+                }
+            }, 600);
+        }
+
+        function handleCardClick() {
+            playClickSound();
+            const dragDollar = document.getElementById('drag-dollar');
+            dragDollar.style.animation = 'none';
+            dragDollar.style.transform = 'translateY(-130vh) rotate(-20deg) scale(0.7)';
+            dragDollar.style.opacity = '0';
+            setTimeout(() => { nextScreen(2, 3); }, 500);
+            setTimeout(() => { nextScreen(3, 4); }, 5000);
+        }
+
+        let escapeCount = 0;
+        const gameDollar = document.getElementById('game-dollar');
+
+        function moveDollar() {
+            const maxX = window.innerWidth - gameDollar.clientWidth - 40;
+            const maxY = window.innerHeight - gameDollar.clientHeight - 40;
+            const randomX = Math.max(40, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(120, Math.floor(Math.random() * maxY));
+            const randomRotate = Math.floor(Math.random() * 24) - 12; 
+            
+            gameDollar.style.opacity = '0';
+            setTimeout(() => {
+                gameDollar.style.left = `${randomX}px`;
+                gameDollar.style.top = `${randomY}px`;
+                gameDollar.style.transform = `rotate(${randomRotate}deg)`;
+                gameDollar.style.opacity = '1';
+            }, 50);
+        }
+
+        function initGame() {
+            moveDollar();
+            gameDollar.addEventListener('mouseover', handleEscape);
+            gameDollar.addEventListener('touchstart', handleEscape);
+        }
+
+        function handleEscape() {
+            playClickSound();
+            if (escapeCount < 4) {
+                moveDollar();
+                escapeCount++;
+            } else {
+                gameDollar.removeEventListener('mouseover', handleEscape);
+                gameDollar.removeEventListener('touchstart', handleEscape);
+                gameDollar.style.transform = 'scale(0)';
+                setTimeout(() => { nextScreen(4, 5); }, 200);
+            }
+        }
+
+        function startGlobalHearts() {
+            const container = document.getElementById('global-hearts');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = Math.random() > 0.4 ? '❤️' : '✦';
+                
+                const size = Math.floor(Math.random() * 12) + 12;
+                const opacity = (Math.random() * 0.4 + 0.2).toFixed(2);
+                const drift = Math.floor(Math.random() * 40) - 20;
+                const scale = (Math.random() * 0.5 + 0.8).toFixed(1);
+
+                heart.style.fontSize = `${size}px`;
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.setProperty('--target-op', opacity);
+                heart.style.setProperty('--drift', `${drift}px`);
+                heart.style.setProperty('--target-scale', scale);
+                heart.style.animationDuration = (Math.random() * 4 + 4) + 's'; 
+                
+                container.appendChild(heart);
+                setTimeout(() => { heart.remove(); }, 6000);
+            }, 350);
+        }
+
+        window.addEventListener('DOMContentLoaded', startGlobalHearts);
+    </script>
+</body>
+</html>
